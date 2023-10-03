@@ -1,0 +1,54 @@
+version: '3'
+services:
+  postgrest_api:
+    image: postgrest_local:latest
+    ports:
+      - "3000:3000"
+    environment:
+      PGRST_OPENAPI_SERVER_PROXY_URI: http://127.0.0.1:3000
+    depends_on:
+      - postgres_lastebil_db
+  postgres_lastebil_db:
+    image: postgres_lastebil_db_local:latest
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+  swagger:
+    image: swaggerapi/swagger-ui
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    environment:
+      API_URL: http://localhost:3500/api
+    depends_on:
+      - postgrest_api
+  frontend:
+    image: frontend_nginx_local:latest
+    ports:
+      - "1234:80"
+    depends_on:
+      - hardened_api
+  hardened_api:
+    image: nginx_api_local:latest
+    ports: 
+      - "3500:80"
+    depends_on:
+      - postgrest_api
+  grensestasjoner_api:
+    image: grensestasjoner_app_local:latest
+    ports:
+      - "2345:8080"
+    depends_on:
+      - postgres_grensestasjoner_db
+  postgres_grensestasjoner_db:
+    image: postgres_grensestasjoner_db_local:latest
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword

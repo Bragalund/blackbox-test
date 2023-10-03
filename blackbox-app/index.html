@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/htmx.org@1.8.5"></script>
+    <title>Simple htmx webpage</title>
+  </head>
+  <body>
+    <button>
+      <a hx-get="http://localhost:3500/api/todos" hx-target="#todos">last</a>
+    </button>
+    <output id="todos"></output>
+  </body>
+</html>
