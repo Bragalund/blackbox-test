@@ -1,4 +1,4 @@
-run: 
+start: 
 	docker build -f postgres_lastebil_db_Dockerfile -t postgres_lastebil_db_local .;
 	docker build -f postgREST_Dockerfile -t postgrest_local .;
 	docker build -f nginx_apihardening_Dockerfile -t nginx_api_local .;

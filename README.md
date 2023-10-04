@@ -1,101 +1,81 @@
-# Black box test  
+# Blackbox-test  
 
 ## Oppgave  
 
 Vi skal lage større automatiserte tester for noen eksisterende applikasjoner for et annet lag. 
+Prosjektet heter "blackbox" og er beskrevet mer i detalj i [blackbox/README.md](blackbox/README.md)
 
 Noen rammebetingelser:  
 
 1. Vi har flere applikasjoner i en microservice-arkitektur  
 2. Vi benytter docker og kubernetes/openshift som kjøremiljø  
-3. Vi benytter frontends i react  
+3. Vi benytter frontends i react og backends i java/kotlin
 
 
 Krav:
 
-1. Vi ønsker at testene skal kjøre selvstendig, hver for seg.
+1. Vi ønsker at hver og en av testene skal kjøre selvstendig, hver for seg.  
 2. At det skal være mulig å trigge testene fra en ci-cd pipeline på en enkel måte.  
+3. Oppsett og nedrivning av kjøremiljø for blackbox og testene skal være helautomatisert
+
 
 Ønskelig:
 
-1. Vi ønsker at du tenker på hvordan du ville automatisert testing av sikkerhet  
-
+1. Tenker på hvordan du ville automatisert testing av sikkerhet  
+2. Tenker på hvordan du kan endre state/data i systemet for hver testkjøring, for å kunne trigge annen funksjonalitet
 
 
 Vi ønsker at du:  
-Tenker gjennom problemstilingen og kan forklare/lage en skisse over hvordan du vil løse oppgaven.   
-* skriver *noe* kode for å løse en del av oppgaven, du velger språk og verktøy selv, så vi kan se litt på den tekniske tilnærmingen.
+
+Tenker gjennom problemstilingen og kan forklare hvordan du vil løse oppgaven.
+Bestemmer hvilke tester du ville skrevet, hvor du ville skrevet de og hvorfor. 
+Vi forventer at du skriver *noe* kode for å løse en del av oppgaven.
+Du velger språk og verktøy selv, så vi kan se litt på den tekniske tilnærmingen.
 
 
+## Forslag til tester å skrive   
 
-Endepunktene som skal testes er 
+Dette er et forslag til tester du kan lage. 
+Hvis du ønsker å lage/tenke ut andre tester, så er du fri til å gjøre det.  
+
+### grensestasjoner_api:
+
+#### Sjekke helse  
 
 GET /health  
-Skal returnere 200 OK
+Skal returnere Http Statuskode "200"
 
+### hardened_lastebil_api:
+
+#### Liste med grensepasseringer  
 
 GET /lastebiler
-Skal returnere: 200 OK
 
 ```shell
 curl localhost:3500/api/lastebiler
 ```
 
-```json
+Skal returnere: Den samme listen med grensepasseringer som finnes i databasen.
 
-[
-  {
-    "id":1,"kommersiell_aktor":true,"registreringsnummer":"DP26272","selskap":"NOR Cargo","passert_tollstasjon":"2023-10-02T15:30:00+00:00"
-    }, 
-    {
-      "id":2,"kommersiell_aktor":true,"registreringsnummer":"FD91232","selskap":"SØR Cargo","passert_tollstasjon":"2023-10-02T16:32:00+00:00"
-    }, 
-    {
-      "id":3,"kommersiell_aktor":true,"registreringsnummer":"JL72739","selskap":"WEST Cargo","passert_tollstasjon":"2023-10-02T15:36:02+00:00"
-    }
- ]
 
-```
+#### Manipuler grensepasseringsdata, sjekk at på nettsiden
 
 POST /lastebiler
+Nøyere beskrevet i [Nyttige kommandoer -> blackbox/Hardened_lastebil_api_README.md](blackbox/Hardened_lastebil_api_README.md)  
 
-```shell
-curl -v --header "Content-Type: application/json" --request POST localhost:3500/api/lastebiler -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoid3JpdGVfdXNlciJ9.REHJAaYJrSeNgTTcf8yNmgPJYcv4xXanT-0X4ztOOxI"   --data '{"kommersiell_aktor":true,"registreringsnummer":"ZZ82739","selskap":"SOUTH Cargo","passert_tollstasjon":"2023-10-02T15:37:03+00:00"}' localhost:3500/api/lastebiler
-```
+Assert: Test at dataene som ble lagt inn via API'et dukker opp på nettsiden når knappen på nettsiden trykkes på.  
 
-Http-body:
-```json
-{
-  "kommersiell_aktor":true,"registreringsnummer":"ZZ82739","selskap":"SOUTH Cargo","passert_tollstasjon":"2023-10-02T15:37:03+00:00"
-}
-```
 
-Test at raden finnes i databasen.
+### Sammensatte tester  
 
-## Teknisk info  
+#### Manipuler grensepasseringsdata, sjekk at blir returnert fra grensestasjons_api  
 
-### Hvordan kjøre applikasjonene lokalt  
+Hardened_lastebiler_api: POST /lastebiler  
+Grensestasjoner_api: GET /grensestasjoner/2  
 
-```shell
-cd
-make run
-```
-
-### Autentisering  
-
-Dette tokenet autentiserer med "write_user", som har skriverettigheter med databasen:  
-
-```token
-eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoid3JpdGVfdXNlciJ9.REHJAaYJrSeNgTTcf8yNmgPJYcv4xXanT-0X4ztOOxI
-```
-
-Dette tokenet autentiserer med "read_user", som har lese-rettigheter i databasen:
-
-```token
-eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoicmVhZF91c2VyIn0.vpbs889wR-AEPp9CjooGRThxRDfDzof0c6nW2iXxEwM
-```
+Assert: At den opprettede grensepasseringen eksisterer når man spør om detaljert informasjon på grensestasjon nummer 2.  
 
 
 ### Bonus  
 
-Lag en CI-CD pipeline som bygger applikasjonen og kjører testene du har skrevet i pipelinen.  
+Lag en CI-CD pipeline som bygger applikasjonene og kjører testene du har skrevet i pipelinen.  

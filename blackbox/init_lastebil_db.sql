@@ -19,6 +19,9 @@ values (true, 'FD91232', 'SØR Cargo', 2, '2023-10-02 16:32:00+00:00');
 insert into api.lastebiler (kommersiell_aktor, registreringsnummer, selskap, tollstasjon_passert, passert_tollstasjon) 
 values (true, 'JL72739', 'WEST Cargo', 1, '2023-10-02 15:36:02+00:00');
 
+insert into api.lastebiler (kommersiell_aktor, registreringsnummer, selskap, tollstasjon_passert, passert_tollstasjon) 
+values (true, 'JK72759', 'WEST Cargo', 1, '2023-10-02 11:12:01+00:00');
+
 create role read_user nologin;
 
 grant usage on schema api to read_user;

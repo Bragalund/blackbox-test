@@ -1,6 +1,6 @@
 version: '3'
 services:
-  postgrest_api:
+  lastebil_api:
     image: postgrest_local:latest
     ports:
       - "3000:3000"
@@ -25,25 +25,29 @@ services:
     environment:
       API_URL: http://localhost:3500/api
     depends_on:
-      - postgrest_api
+      - hardened_lastebil_api
   frontend:
     image: frontend_nginx_local:latest
     ports:
       - "1234:80"
     depends_on:
-      - hardened_api
-  hardened_api:
+      - hardened_lastebil_api
+  hardened_lastebil_api:
     image: nginx_api_local:latest
+    container_name: hardened_lastebil_api
     ports: 
       - "3500:80"
     depends_on:
-      - postgrest_api
+      - lastebil_api
   grensestasjoner_api:
     image: grensestasjoner_app_local:latest
     ports:
       - "2345:8080"
+    environment:
+      hardened_lastebil_api_read_token: eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoicmVhZF91c2VyIn0.vpbs889wR-AEPp9CjooGRThxRDfDzof0c6nW2iXxEwM
     depends_on:
       - postgres_grensestasjoner_db
+      - hardened_lastebil_api
   postgres_grensestasjoner_db:
     image: postgres_grensestasjoner_db_local:latest
     ports:
