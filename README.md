@@ -29,7 +29,7 @@ Vi ønsker at du:
 
 Tenker gjennom problemstilingen og kan forklare hvordan du vil løse oppgaven.
 Bestemmer hvilke tester du ville skrevet, hvor du ville skrevet de og hvorfor. 
-Vi forventer at du skriver *noe* kode for å løse en del av oppgaven.
+Vi forventer at du skriver    - ___*NOE*___ -    kode for å løse en del av oppgaven.
 Du velger språk og verktøy selv, så vi kan se litt på den tekniske tilnærmingen.
 
 
