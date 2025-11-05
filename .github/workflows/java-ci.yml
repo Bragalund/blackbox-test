@@ -46,7 +46,7 @@ jobs:
           path: target/site
 
       - name: Generate coverage badge
-        uses: cicirello/jacoco-badge-generator@v3
+        uses: cicirello/jacoco-badge-generator@v2
         with:
           report-path: target/site/jacoco/jacoco.xml
           coverage-badge-file: badges/jacoco.svg
