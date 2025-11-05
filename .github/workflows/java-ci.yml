@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: java-app-test-reports
-          path: blackbox/java-app/target/site
+          path: blackbox/java-app/target/surefire-reports
 
       - name: Generate coverage badge
         uses: cicirello/jacoco-badge-generator@v2

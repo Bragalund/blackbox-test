@@ -94,17 +94,11 @@
 						<goals>
 							<goal>report</goal>
 						</goals>
-					</execution>
-					<execution>
-						<id>jacoco-csv</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
 						<configuration>
 							<formats>
-								<format>CSV</format>
+								<format>HTML</format>
 								<format>XML</format>
+								<format>CSV</format>
 							</formats>
 						</configuration>
 					</execution>
