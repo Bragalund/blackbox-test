@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: java-app
+        working-directory: blackbox/java-app
 
     steps:
       - name: Checkout
@@ -36,4 +36,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: java-app-jar
-          path: java-app/target/*.jar
+          path: blackbox/java-app/target/*.jar
