@@ -1,0 +1,42 @@
+name: Docker Images
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - dockerfile: postgres_lastebil_db_Dockerfile
+            image: postgres_lastebil_db_local
+          - dockerfile: postgREST_Dockerfile
+            image: postgrest_local
+          - dockerfile: nginx_apihardening_Dockerfile
+            image: nginx_api_local
+          - dockerfile: nginx_frontend_Dockerfile
+            image: frontend_nginx_local
+          - dockerfile: java_app_Dockerfile
+            image: grensestasjoner_app_local
+          - dockerfile: postgres_grensestasjoner_db_Dockerfile
+            image: postgres_grensestasjoner_db_local
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build ${{ matrix.image }}
+        run: |
+          docker build \
+            --file "${{ matrix.dockerfile }}" \
+            --tag "${{ matrix.image }}:ci" \
+            .

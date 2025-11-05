@@ -1,0 +1,39 @@
+name: Java CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: java-app
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: maven
+
+      - name: Run unit tests
+        run: ./mvnw -B test
+
+      - name: Build jar
+        run: ./mvnw -B package -DskipTests
+
+      - name: Upload jar artifact
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: java-app-jar
+          path: java-app/target/*.jar

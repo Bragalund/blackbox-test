@@ -1,4 +1,7 @@
 # Blackbox-test  
+[![Smoke Tests](https://github.com/Bragalund/blackbox-test/actions/workflows/smoke-tests.yml/badge.svg)](https://github.com/Bragalund/blackbox-test/actions/workflows/smoke-tests.yml)
+
+![Overordnet_skisse](blackbox/overordnet_skisse.png)
 
 ## Oppgave  
 
