@@ -95,11 +95,12 @@
 							<goal>report</goal>
 						</goals>
 						<configuration>
-							<formats>
-								<format>HTML</format>
-								<format>XML</format>
-								<format>CSV</format>
-							</formats>
+							<outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
+							<reports>
+								<report>HTML</report>
+								<report>XML</report>
+								<report>CSV</report>
+							</reports>
 						</configuration>
 					</execution>
 				</executions>
