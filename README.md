@@ -1,6 +1,6 @@
 # Blackbox-test  
 [![Smoke Tests](https://github.com/Bragalund/blackbox-test/actions/workflows/smoke-tests.yml/badge.svg)](https://github.com/Bragalund/blackbox-test/actions/workflows/smoke-tests.yml)
-[![Java CI](https://github.com/Bragalund/blackbox-test/actions/workflows/java-ci.yml/badge.svg)](https://github.com/Bragalund/blackbox-test/actions/workflows/java-ci.yml)
+[![Java build and test](https://github.com/Bragalund/blackbox-test/actions/workflows/java-ci.yml/badge.svg)](https://github.com/Bragalund/blackbox-test/actions/workflows/java-ci.yml)
 ![Coverage](https://raw.githubusercontent.com/Bragalund/blackbox-test/main/blackbox/java-app/badges/jacoco.svg)
 
 ![Overordnet_skisse](blackbox/overordnet_skisse.png)
