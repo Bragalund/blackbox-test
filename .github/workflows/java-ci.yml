@@ -38,28 +38,3 @@ jobs:
           name: java-app-jar
           path: blackbox/java-app/target/*.jar
 
-      - name: Upload test reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: java-app-test-reports
-          path: blackbox/java-app/target/surefire-reports
-
-      - name: Generate coverage badge
-        uses: cicirello/jacoco-badge-generator@v2
-        with:
-          jacoco-csv-file: blackbox/java-app/target/site/jacoco/jacoco.csv
-          badges-directory: blackbox/java-app/badges
-          coverage-badge-filename: jacoco.svg
-
-      - name: Commit coverage badge
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add blackbox/java-app/badges/jacoco.svg
-          if git diff --cached --quiet; then
-            echo "No coverage badge updates"
-          else
-            git commit -m "chore: update coverage badge"
-            git push
-          fi
